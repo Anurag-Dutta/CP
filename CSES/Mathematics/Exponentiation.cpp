@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1095 */
 /*
     AUTHOR : BlueKnight
 */
@@ -177,29 +177,29 @@ int fact(int n)
         res = res * i;
     return res;
 }
+int64 binary_expo(int64 x, int64 y, int64 m)
+{
+    int64 ans = 1;
+    while (y != 0)
+    {
+        if (y & 1 == 1)
+        {
+            ans = ((ans % m) * (x % m)) % m;
+        }
+        y = y >> 1;
+        x = ((x % m) * (x % m)) % m;
+    }
+    return ans;
+}
 int main()
 {
     FAST int t;
-    t = 1;
+    cin >> t;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
-        cin >> n;
-        long long int arr[n];
-        for (int i = 0; i < n; i++)
-        {
-            cin >> arr[i];
-        }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
-        {
-            if (arr[i] > arr[i + 1])
-            {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
-            }
-        }
-        cout << count << endl;
+        int64 a, b;
+        cin >> a >> b;
+        cout << binary_expo(a, b, MOD) << endl;
     }
     return 0;
 }

@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1619 */
 /*
     AUTHOR : BlueKnight
 */
@@ -183,23 +183,60 @@ int main()
     t = 1;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
+        int n;
         cin >> n;
-        long long int arr[n];
+        int a[n], b[n];
+        // int maxi = 0;
         for (int i = 0; i < n; i++)
         {
-            cin >> arr[i];
+            cin >> a[i] >> b[i];
+            // maxi = max(maxi, max(a[i], b[i]));
         }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
+        /* Brute Force */
+        // vector<int> vault(maxi + 1, 0);
+        // for (int i = 0; i < n; i++)
+        // {
+        //     for (int j = a[i]; j <= b[i]; j++)
+        //     {
+
+        //         vault[j]++;
+        //     }
+        // }
+        // maxi = 0;
+        // for (auto &i : vault)
+        // {
+        //     maxi = max(maxi, i);
+        // }
+        // cout << maxi << endl;
+        /*
+        A[n] -> Arrival Times
+        B[n] -> Departure Times
+        */
+        int count = 0;
+        int maxi = 0;
+        sort(a, a + n);
+        sort(b, b + n);
+        int ptr_a = 0;
+        int ptr_b = 0;
+        while (ptr_a < n and ptr_b < n)
         {
-            if (arr[i] > arr[i + 1])
+            if (a[ptr_a] <= b[ptr_b])
             {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
+                /* If arrival time of next arrival is smaller than or equal to departure time of current arrival */
+                /* New Room needs to be allocated */
+                ptr_a++;
+                count++;
+                maxi = max(maxi, count);
+            }
+            else
+            {
+                /* If arrival time of next arrival is greater than departure time of current arrival */
+                /* One room becomes vacant */
+                ptr_b++;
+                count--;
             }
         }
-        cout << count << endl;
+        cout << maxi << endl;
     }
     return 0;
 }

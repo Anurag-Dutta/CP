@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1074 */
 /*
     AUTHOR : BlueKnight
 */
@@ -183,23 +183,23 @@ int main()
     t = 1;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
+        int64 n;
         cin >> n;
-        long long int arr[n];
-        for (int i = 0; i < n; i++)
+        int64 p[n];
+        for (int64 i = 0; i < n; i++)
         {
-            cin >> arr[i];
+            cin >> p[i];
         }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
+        sort(p, p + n);
+        /* Our task will be to convert all the sticks to the stick of median */
+        int64 median = n / 2;
+        median = p[median];
+        int64 ans = 0;
+        for (int64 i = 0; i < n; i++)
         {
-            if (arr[i] > arr[i + 1])
-            {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
-            }
+            ans += abs(p[i] - median);
         }
-        cout << count << endl;
+        cout << ans << endl;
     }
     return 0;
 }

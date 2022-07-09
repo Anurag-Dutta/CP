@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1640 */
 /*
     AUTHOR : BlueKnight
 */
@@ -183,23 +183,48 @@ int main()
     t = 1;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
-        cin >> n;
+        long long int n, x;
+        cin >> n >> x;
         long long int arr[n];
-        for (int i = 0; i < n; i++)
+        vector<pair<int64, int64>> vault;
+        /*
+        Since we will have to return the indices, and if we sort them, the indices will be arranged
+        randomly, so we will make use of pseudo sorting technique.
+        */
+        for (int64 i = 0; i < n; i++)
         {
             cin >> arr[i];
+            vault.push_back({arr[i], i + 1}); /* Pushing i + 1 as the indexing will be 1 based */
         }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
+        sort(vault.begin(), vault.end());
+        int64 low = 0;
+        int64 high = n - 1;
+        /* 2 Pointer Approach */
+        bool flag = false;
+        while (low < high)
         {
-            if (arr[i] > arr[i + 1])
+            if (vault[low].first + vault[high].first == x)
             {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
+                flag = true;
+                break;
+            }
+            else if (vault[low].first + vault[high].first > x)
+            {
+                high--;
+            }
+            else
+            {
+                low++;
             }
         }
-        cout << count << endl;
+        if (flag)
+        {
+            cout << vault[low].second << " " << vault[high].second << endl;
+        }
+        else
+        {
+            cout << "IMPOSSIBLE" << endl;
+        }
     }
     return 0;
 }

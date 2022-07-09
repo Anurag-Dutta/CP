@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1084 */
 /*
     AUTHOR : BlueKnight
 */
@@ -183,20 +183,61 @@ int main()
     t = 1;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
-        cin >> n;
-        long long int arr[n];
+        int n, m, k;
+        cin >> n >> m >> k;
+        int a[n];
+        int b[m];
         for (int i = 0; i < n; i++)
         {
-            cin >> arr[i];
+            cin >> a[i];
         }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
+        for (int i = 0; i < m; i++)
         {
-            if (arr[i] > arr[i + 1])
+            cin >> b[i];
+        }
+        int count = 0;
+        // /* Brute Force Method */
+        // for (int i = 0; i < n; i++)
+        // {
+        //     for (int j = 0; j < m; j++)
+        //     {
+        //         if (b[j] != -1)
+        //         {
+        //             if (abs(a[i] - b[j]) <= k)
+        //             {
+        //                 count++;
+        //                 b[j] = -1;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+        sort(a, a + n);
+        sort(b, b + m);
+        int ptr_a = 0;
+        int ptr_b = 0;
+        while (ptr_a < n and ptr_b < m)
+        {
+            if (abs(a[ptr_a] - b[ptr_b]) <= k)
             {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
+                ptr_a++;
+                ptr_b++;
+                count++;
+            }
+            else
+            {
+                if (a[ptr_a] - b[ptr_b] > k)
+                {
+                    /* Desired Apartment Size is too big */
+                    /* Move to next apartent */
+                    ptr_b++;
+                }
+                else if (a[ptr_a] - b[ptr_b] < k)
+                {
+                    /* Desired Apartment Size is too small */
+                    /* Move to next person */
+                    ptr_a++;
+                }
             }
         }
         cout << count << endl;

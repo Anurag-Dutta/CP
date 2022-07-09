@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1722 */
 /*
     AUTHOR : BlueKnight
 */
@@ -177,29 +177,37 @@ int fact(int n)
         res = res * i;
     return res;
 }
+void nthFibo(uint64 n, uint64 &a, uint64 &b)
+{
+    if (n == 0)
+    {
+        a = 0;
+        b = 1;
+        return;
+    }
+    uint64 x, y;
+    if (n % 2)
+    {
+        nthFibo(n - 1, x, y);
+        a = y;
+        b = (x + y) % MOD;
+        return;
+    }
+    nthFibo(n / 2, x, y);
+    a = (x * (2 * y + MOD - x) % MOD) % MOD;
+    b = (((x * x) % MOD + (y * y) % MOD)) % MOD;
+    return;
+}
 int main()
 {
     FAST int t;
     t = 1;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
+        uint64 n, a, b;
         cin >> n;
-        long long int arr[n];
-        for (int i = 0; i < n; i++)
-        {
-            cin >> arr[i];
-        }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
-        {
-            if (arr[i] > arr[i + 1])
-            {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
-            }
-        }
-        cout << count << endl;
+        nthFibo(n, a, b);
+        cout << a << endl;
     }
     return 0;
 }

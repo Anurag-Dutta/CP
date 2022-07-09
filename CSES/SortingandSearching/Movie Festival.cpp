@@ -1,4 +1,4 @@
-/* https://cses.fi/problemset/task/1094 */
+/* https://cses.fi/problemset/task/1629/ */
 /*
     AUTHOR : BlueKnight
 */
@@ -183,20 +183,25 @@ int main()
     t = 1;
     for (int i = 1; i <= t; i++)
     {
-        long long int n;
+        int n;
         cin >> n;
-        long long int arr[n];
+        int a[n], b[n];
+        vector<pair<int, int>> vault;
         for (int i = 0; i < n; i++)
         {
-            cin >> arr[i];
+            cin >> a[i] >> b[i];
+            vault.push_back({b[i], a[i]});
+            /* Let's arrange them on the basis of their departure time */
         }
-        long long int count = 0;
-        for (int i = 0; i < n - 1; i++)
+        sort(vault.begin(), vault.end());
+        int x = vault[0].first;
+        int count = 1;
+        for (int i = 1; i < n; i++)
         {
-            if (arr[i] > arr[i + 1])
+            if (vault[i].second >= x)
             {
-                count += abs(arr[i + 1] - arr[i]);
-                arr[i + 1] = arr[i];
+                count++;
+                x = vault[i].first;
             }
         }
         cout << count << endl;
